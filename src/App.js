@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { Route, Redirect, Switch } from "react-router-dom"
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { withRouter } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css'
+
+import Preloader from './components/common/Preloader/Preloader'
+import { initializeApp } from './redux/app-reducer'
+import PostsContainer from './components/Posts/PostsContainer'
+import SinglePostContainer from './components/SinglePost/SinglePostContainer'
+import NotFound from './components/common/NotFound/NotFound'
+
+class App extends Component {
+  componentDidMount() {
+    this.props.initializeApp()
+  }
+  render() {
+    if (!this.props.initialized) {
+      return (
+              <Preloader />
+      )
+    }
+    return (
+      <div className='app-wrapper'>
+        <Switch>
+          <Route exact path="/"
+                  render={() => <Redirect to='/posts' />} />
+          <Route exact path="/posts"
+                  render={() => <PostsContainer />} />
+          <Route exact path="/post/:postId?"
+                  render={() => <SinglePostContainer /> } />
+          <Route path='/404'
+                  render={() => <NotFound />} />
+          <Route path='*'
+                  render={() => <Redirect to='/404' />} />
+        </Switch>
+      </div>
+    )
+  }
 }
+const mapStateToProps = (state) => ({
+  initialized: state.app.initialized
+})
 
-export default App;
+export default compose(
+  withRouter,
+  connect(mapStateToProps, {
+          initializeApp
+  })
+)(App)

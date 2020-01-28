@@ -1,0 +1,43 @@
+.formControl {
+    display: flex;
+    flex-flow: column;
+}
+.formControl textarea {
+    resize: none;
+    width: 100%;
+    padding: 7px;
+    box-sizing: border-box;
+}
+
+/* input {
+    width: 100%;
+} */
+
+
+input[type=text],
+input[type=password],
+input[type=email] {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+/* .inputContainer {
+    display: flex;
+} */
+.errorMessage,
+.warningMessage {
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 5px;
+}
+.errorMessage {
+    background-color: #ffb6b6;
+}
+.warningMessage {
+    background-color: #f6ffba;
+}
